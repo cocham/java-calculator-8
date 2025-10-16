@@ -1,0 +1,14 @@
+package calculator.util;
+import camp.nextstep.edu.missionutils.Console;
+import static calculator.constant.NumberConst.*;
+import static calculator.constant.MessageConst.*;
+
+public class MessageUtil {
+    public String requestInput() {
+        System.out.println(START_MSG);
+        return Console.readLine();
+    }
+    public void printResult(int result) {
+        System.out.print(OUTPUT_MSG + result);
+    }
+}
