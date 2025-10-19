@@ -9,7 +9,7 @@ import static calculator.constant.MessageConst.*;
 public class InputParser {
     private static final String CUSTOM_PREFIX = "//";
     private static final String DEFAULT_DELIMITERS = "[,:]";
-
+    private static final String CUSTOM_ESCAPED_LINE = "\\n";
     /**
      * 문자열 계산식을 파싱하여 숫자 리스트를 반환합니다.
      * 이 과정에서 모든 유효성 검사가 수행됩니다.
@@ -36,23 +36,28 @@ public class InputParser {
 
     // 커스텀 구분자 검증 후 구분자 및 문자열 추출
     private ExpressionParts extractCustomDelimiter(String input) {
-        int endIdx = input.indexOf("\n");
-        if (endIdx == -1 ) {
+        String delimiter = "";
+        String numbersPart = "";
+
+        int endIdx = input.indexOf(CUSTOM_ESCAPED_LINE) + 1;
+
+        if (endIdx == -1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_END_EXCEPTION_MSG);
         }
+
         if (endIdx == input.length() - 1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_NAN_NUMS_EXCEPTION_MSG);
         }
 
-        String delimiter = input.substring(2, endIdx);
+        delimiter = input.substring(2, endIdx - 1);
+        numbersPart = input.substring(endIdx + 1);
+
         if (delimiter.isEmpty()) {
             throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
         }
         if (delimiter.matches(".*\\d.*")) {
             throw new IllegalArgumentException(INPUT_CUSTOM_UNVALIDATE_EXCEPTION);
         }
-
-        String numbersPart = input.substring(endIdx + 1);
 
         return new ExpressionParts(numbersPart, delimiter);
     }
