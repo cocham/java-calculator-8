@@ -49,7 +49,7 @@ public class InputParser {
         }
 
         delimiter = input.substring(CUSTOM_PREFIX.length(), delimiterEndIdx);
-        System.out.println(delimiter);
+
         if (delimiter.isEmpty()) {
             throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
         }
