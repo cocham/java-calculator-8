@@ -38,31 +38,31 @@ public class InputParser {
         String delimiter = "";
         String numbersPart = "";
 
-        int endIdx = input.indexOf(CUSTOM_ESCAPED_LINE) + 1;
+        int delimiterEndIdx = input.indexOf(CUSTOM_ESCAPED_LINE);
 
-        if (endIdx == -1) {
+        if (delimiterEndIdx == -1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_END_EXCEPTION_MSG);
         }
 
-        if (endIdx == input.length() - 1) {
+        if (delimiterEndIdx == input.length() - 1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_NAN_NUMS_EXCEPTION_MSG);
         }
 
-        delimiter = input.substring(2, endIdx - 1);
-
+        delimiter = input.substring(CUSTOM_PREFIX.length(), delimiterEndIdx);
+        System.out.println(delimiter);
         if (delimiter.isEmpty()) {
             throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
         }
 
         if (delimiter.length() > 1) {
-            throw new IllegalArgumentException(INPUT_CUSTOM_LENGH_EXCEPTION_MSG);
+            throw new IllegalArgumentException(INPUT_CUSTOM_LENGTH_EXCEPTION_MSG);
         }
 
         if (delimiter.matches(".*\\d.*")) {
             throw new IllegalArgumentException(INPUT_CUSTOM_UNVALIDATE_EXCEPTION);
         }
 
-        numbersPart = input.substring(endIdx + 1);
+        numbersPart = input.substring(delimiterEndIdx + 2);
 
         return new ExpressionParts(numbersPart, delimiter);
     }
