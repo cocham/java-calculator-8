@@ -24,13 +24,12 @@ public class InputParser {
         }
 
         input = input.trim();
-        String[] tokens;
         if (input.startsWith(CUSTOM_PREFIX)) {
-            tokens = tokenizeWithCustomDelimiter(input);
-        } else {
-            tokens = tokenizeWithDefaultDelimiter(input);
+            String[] tokens = tokenizeWithCustomDelimiter(input);
+            return convertToNumbers(tokens);
         }
 
+        String[] tokens = tokenizeWithDefaultDelimiter(input);
         return convertToNumbers(tokens);
     }
 
