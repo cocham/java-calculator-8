@@ -50,14 +50,20 @@ public class InputParser {
         }
 
         delimiter = input.substring(2, endIdx - 1);
-        numbersPart = input.substring(endIdx + 1);
 
         if (delimiter.isEmpty()) {
             throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
         }
+
+        if (delimiter.length() > 1) {
+            throw new IllegalArgumentException(INPUT_CUSTOM_LENGH_EXCEPTION_MSG);
+        }
+
         if (delimiter.matches(".*\\d.*")) {
             throw new IllegalArgumentException(INPUT_CUSTOM_UNVALIDATE_EXCEPTION);
         }
+
+        numbersPart = input.substring(endIdx + 1);
 
         return new ExpressionParts(numbersPart, delimiter);
     }

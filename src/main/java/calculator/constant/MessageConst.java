@@ -9,7 +9,7 @@ public class MessageConst {
 
     public static final String INPUT_MINUS_EXCEPTION_MSG = "음수는 입력할 수 없습니다.";
     public static final String INPUT_FORM_EXCEPTION_MSG = "구분자와 숫자 이외의 값은 입력할 수 없습니다.";
-    public static final String INPUT_SEQUENCE_EXCEPTION_MSG = "구분자는 연속해서 입력할 수 없습니다.";
+    public static final String INPUT_CUSTOM_LENGH_EXCEPTION_MSG = "구분자는 문자 하나여야 합니다.";
     public static final String INPUT_CUSTOM_EXCEPTION_MSG = "커스텀 구분자를 입력하세요.";
     public static final String INPUT_CUSTOM_UNVALIDATE_EXCEPTION = "구분자에 숫자는 사용할 수 없습니다.";
     public static final String INPUT_CUSTOM_END_EXCEPTION_MSG = "구분자 형식이 잘못 되었습니다.";
