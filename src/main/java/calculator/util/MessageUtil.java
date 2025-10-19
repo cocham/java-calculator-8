@@ -1,6 +1,5 @@
 package calculator.util;
 import camp.nextstep.edu.missionutils.Console;
-import static calculator.constant.NumberConst.*;
 import static calculator.constant.MessageConst.*;
 
 public class MessageUtil {
@@ -8,7 +7,7 @@ public class MessageUtil {
         System.out.println(START_MSG);
         return Console.readLine();
     }
-    public void printResult(int result) {
+    public void printResult(long result) {
         System.out.print(OUTPUT_MSG + result);
     }
 }
