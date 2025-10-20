@@ -96,7 +96,7 @@ public class InputParser {
 
     private int parseIntStrict(String token) {
         try {
-            return Integer.parseInt(token);
+            return Integer.parseInt(token.trim());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INPUT_FORM_EXCEPTION_MSG);
         }
