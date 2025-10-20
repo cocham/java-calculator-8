@@ -13,6 +13,4 @@ public class MessageConst {
     public static final String INPUT_CUSTOM_EXCEPTION_MSG = "커스텀 구분자를 입력하세요.";
     public static final String INPUT_CUSTOM_UNVALIDATE_EXCEPTION = "구분자에 숫자는 사용할 수 없습니다.";
     public static final String INPUT_CUSTOM_END_EXCEPTION_MSG = "구분자 형식이 잘못 되었습니다.";
-    public static final String INPUT_CUSTOM_NAN_NUMS_EXCEPTION_MSG = "구분자만 입력하면 안됩니다.";
-
 }
