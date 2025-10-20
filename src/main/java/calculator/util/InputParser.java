@@ -9,21 +9,23 @@ import static calculator.constant.MessageConst.*;
 public class InputParser {
     private static final String CUSTOM_PREFIX = "//";
     private static final String DEFAULT_DELIMITERS = "[,:]";
-    private static final String CUSTOM_ESCAPED_LINE = "\\n";
+    private static final String CUSTOM_LINE_SEPARATOR = "\\n";
+    private static final int CUSTOM_LINE_SEPARATOR_LENGTH = 2;
+
     /**
      * 문자열 계산식을 파싱하여 숫자 리스트를 반환합니다.
      * 이 과정에서 모든 유효성 검사가 수행됩니다.
      *
      * @param input 사용자가 입력한 원본 문자열
      * @return 계산 가능한 숫자들의 리스트(빈 입력은 빈 리스트)
-     * @throws IllegalArgumentException 잘못된 형식/값
+     * @throws IllegalArgumentException 잘못된 형식, 음수 등 유효하지 않은 값이 포함된 경우
      */
     public List<Integer> parse(String input) {
         if (input == null || input.isBlank()) {
             return new ArrayList<>();
         }
-
         input = input.trim();
+
         if (input.startsWith(CUSTOM_PREFIX)) {
             String[] tokens = tokenizeWithCustomDelimiter(input);
             return convertToNumbers(tokens);
@@ -33,59 +35,48 @@ public class InputParser {
         return convertToNumbers(tokens);
     }
 
-    // 커스텀 구분자 검증 후 구분자 및 문자열 추출
-    private ExpressionParts extractCustomDelimiter(String input) {
-        String delimiter = "";
-        String numbersPart = "";
-
-        int delimiterEndIdx = input.indexOf(CUSTOM_ESCAPED_LINE);
-
-        if (delimiterEndIdx == -1) {
+    private ExpressionParts parseCustomDelimiter(String input) {
+        final int separatorIndex = input.indexOf(CUSTOM_LINE_SEPARATOR);
+        if (separatorIndex == -1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_END_EXCEPTION_MSG);
         }
 
-        if (delimiterEndIdx == input.length() - 1) {
-            throw new IllegalArgumentException(INPUT_CUSTOM_NAN_NUMS_EXCEPTION_MSG);
-        }
+        String delimiter = input.substring(CUSTOM_PREFIX.length(), separatorIndex);
+        String numbersPart = input.substring(separatorIndex + CUSTOM_LINE_SEPARATOR_LENGTH);
 
-        delimiter = input.substring(CUSTOM_PREFIX.length(), delimiterEndIdx);
-
-        if (delimiter.isEmpty()) {
-            throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
-        }
-
-        if (delimiter.length() > 1) {
-            throw new IllegalArgumentException(INPUT_CUSTOM_LENGTH_EXCEPTION_MSG);
-        }
-
-        if (delimiter.matches(".*\\d.*")) {
-            throw new IllegalArgumentException(INPUT_CUSTOM_UNVALIDATE_EXCEPTION);
-        }
-
-        numbersPart = input.substring(delimiterEndIdx + 2);
-
+        validateDelimiter(delimiter);
         return new ExpressionParts(numbersPart, delimiter);
     }
 
-    // 커스텀 구분자 기반 파싱
+    private void validateDelimiter(String delimiter) {
+        if (delimiter.isEmpty()) {
+            throw new IllegalArgumentException(INPUT_CUSTOM_EXCEPTION_MSG);
+        }
+        if (delimiter.length() > 1) {
+            throw new IllegalArgumentException(INPUT_CUSTOM_LENGTH_EXCEPTION_MSG);
+        }
+        if (delimiter.matches(".*\\d.*")) {
+            throw new IllegalArgumentException(INPUT_CUSTOM_UNVALIDATE_EXCEPTION);
+        }
+    }
+
     private String[] tokenizeWithCustomDelimiter(String input) {
-        ExpressionParts parts = extractCustomDelimiter(input);
+        ExpressionParts parts = parseCustomDelimiter(input);
         String delimiter = parts.delimiter;
         String numbersPart = parts.numbersPart;
+
+        if (numbersPart.isEmpty()) {
+            return new String[0];
+        }
+
         String regex = Pattern.quote(delimiter);
-        String[] tokens = numbersPart.split(regex);
-
-        return tokens;
+        return numbersPart.split(regex);
     }
 
-    // 기본 구분자(쉼표/콜론) 기반 파싱
     private String[] tokenizeWithDefaultDelimiter(String input) {
-        String[] tokens = input.split(DEFAULT_DELIMITERS);
-
-        return tokens;
+        return input.split(DEFAULT_DELIMITERS);
     }
 
-    // 숫자가 유효한지 검증 후 숫자 리스트 반환
     private List<Integer> convertToNumbers(String[] tokens) {
         List<Integer> nums = new ArrayList<>();
         for (String token : tokens) {
@@ -99,7 +90,7 @@ public class InputParser {
         return nums;
     }
 
-    private int parseIntStrict (String token) {
+    private int parseIntStrict(String token) {
         try {
             return Integer.parseInt(token);
         } catch (NumberFormatException e) {
@@ -107,8 +98,6 @@ public class InputParser {
         }
     }
 
-    // 레코드는 불변값.
-    private record ExpressionParts (String numbersPart, String delimiter) {
+    private record ExpressionParts(String numbersPart, String delimiter) {
     }
-
 }
