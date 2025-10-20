@@ -9,8 +9,8 @@ import static calculator.constant.MessageConst.*;
 public class InputParser {
     private static final String CUSTOM_PREFIX = "//";
     private static final String DEFAULT_DELIMITERS = "[,:]";
-    private static final String CUSTOM_LINE_SEPARATOR = "\\n";
-    private static final int CUSTOM_LINE_SEPARATOR_LENGTH = 2;
+    private static final String CUSTOM_SEPARATOR = "\\n";
+    private static final int CUSTOM_SEPARATOR_LENGTH = 2;
 
     /**
      * 문자열 계산식을 파싱하여 숫자 리스트를 반환합니다.
@@ -36,13 +36,13 @@ public class InputParser {
     }
 
     private ExpressionParts parseCustomDelimiter(String input) {
-        final int separatorIndex = input.indexOf(CUSTOM_LINE_SEPARATOR);
+        final int separatorIndex = input.indexOf(CUSTOM_SEPARATOR);
         if (separatorIndex == -1) {
             throw new IllegalArgumentException(INPUT_CUSTOM_END_EXCEPTION_MSG);
         }
 
         String delimiter = input.substring(CUSTOM_PREFIX.length(), separatorIndex);
-        String numbersPart = input.substring(separatorIndex + CUSTOM_LINE_SEPARATOR_LENGTH);
+        String numbersPart = input.substring(separatorIndex + CUSTOM_SEPARATOR_LENGTH);
 
         validateDelimiter(delimiter);
         return new ExpressionParts(numbersPart, delimiter);
