@@ -25,6 +25,14 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 기본_구분자_사용1() {
+        assertSimpleTest(() -> {
+            run(",1");
+            assertThat(output()).contains("결과 : 1");
+        });
+    }
+
+    @Test
     void 예외_테스트() {
         assertSimpleTest(() ->
             assertThatThrownBy(() -> runException("-1,2,3"))

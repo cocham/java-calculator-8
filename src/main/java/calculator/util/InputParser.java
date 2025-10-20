@@ -80,6 +80,10 @@ public class InputParser {
     private List<Integer> convertToNumbers(String[] tokens) {
         List<Integer> nums = new ArrayList<>();
         for (String token : tokens) {
+            if (token.isEmpty()) {
+                continue;
+            }
+
             final int num = parseIntStrict(token);
             if (num < 0) {
                 throw new IllegalArgumentException(INPUT_MINUS_EXCEPTION_MSG);
