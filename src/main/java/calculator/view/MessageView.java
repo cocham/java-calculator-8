@@ -1,4 +1,4 @@
-package calculator.util;
+package calculator.view;
 import camp.nextstep.edu.missionutils.Console;
 import static calculator.constant.MessageConst.*;
 
