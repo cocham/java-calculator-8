@@ -17,7 +17,7 @@ public class Calcurator {
     public void run() {
             String input = messageUtil.requestInput();
             List<Integer> nums = inputParser.parse(input);
-            int sum = computerUtil.getInputInt(nums);
+            long sum = computerUtil.getInputInt(nums);
             messageUtil.printResult(sum);
     }
 }
